@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokémon Randomizer</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Pokémon Randomizer</h1>
+
+    <div class="form-container">
+      <form
+        id="randomizer-form"
+        action="/randomize"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label for="romfile">Upload ROM:</label>
+        <input type="file" name="romfile" id="romfile" required />
+
+        <p id="detected-game" class="hidden">
+          Detected Game: <span id="game-name"></span>
+        </p>
+        <img id="box-art" class="hidden" alt="" />
+
+        <label for="preset">Select Preset:</label>
+        <select name="preset" id="preset"></select>
+
+        <!-- Hidden field to store the unique filename on the server -->
+        <input type="hidden" name="stored_filename" id="stored_filename" />
+
+        <button type="submit" id="submit-button">Randomize</button>
+      </form>
+
+      <p id="error-message" class="hidden"></p>
+      <p id="status-message" class="hidden">Randomizing... Please wait.</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
