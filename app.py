@@ -1,13 +1,15 @@
 import os
 import subprocess
 import io
+import sys
 import hashlib
 import logging
 from flask import Flask, request, send_file, render_template, jsonify
 
 # Configure logging
 logging.basicConfig(
-    level=logging.DEBUG,  
+    level=logging.INFO,
+    stream=sys.stdout,
     format="%(levelname)s %(message)s"
 )
 
@@ -49,7 +51,7 @@ def compute_file_checksum(filepath, hash_bytes=HASH_BYTES):
             data = f.read(hash_bytes)
             hasher.update(data)
         checksum = hasher.hexdigest()
-        app.logger.debug(f"Server: Checksum of {checksum}")
+        app.logger.info(f"Server: Checksum of {checksum}")
         return checksum
     except Exception as e:
         app.logger.error(f"Error computing checksum: {e}")
@@ -78,10 +80,10 @@ def identify_game(filepath):
     if "CRYSTAL" in gbc_title.upper():
         return GAME_PRESETS.get("CRYSTAL")
     if gba_code in GAME_PRESETS:
-        app.logger.debug(f"Identified ROM with GBA code: {gba_code}")
+        app.logger.info(f"Identified ROM with GBA code: {gba_code}")
         return GAME_PRESETS[gba_code]
     if nds_code in GAME_PRESETS:
-        app.logger.debug(f"Identified ROM with NDS code: {nds_code}")
+        app.logger.info(f"Identified ROM with NDS code: {nds_code}")
         return GAME_PRESETS[nds_code]
     
     return (None, None, None)
@@ -104,7 +106,7 @@ def check_rom():
     stored_filename = f"{checksum}.{ext}"
     file_path = os.path.join(UPLOAD_FOLDER, stored_filename)
     exists = os.path.exists(file_path)
-    app.logger.debug(f"Client: Checksum of {ext} file: {checksum}")
+    app.logger.info(f"Client: Checksum of {ext} file: {checksum}")
     return jsonify({"exists": exists, "stored_filename": stored_filename})
 
 @app.route('/upload_rom', methods=['POST'])
@@ -129,8 +131,9 @@ def upload_rom():
     # Save only if the file doesn't already exist
     if not os.path.exists(file_path):
         file.save(file_path)
+        app.logger.info(f"Uploaded file is new")
     else:
-        app.logger.debug(f"File {stored_filename} already exists")
+        app.logger.info(f"Uploaded file already exists")
     
     # Verify the checksum on the server side
     computed_checksum = compute_file_checksum(file_path)
@@ -195,7 +198,7 @@ def randomize():
     output_filepath = os.path.join(UPLOAD_FOLDER, output_filename)
     
     command = [
-        "java", "-Xmx2048M", "-jar", JAR_PATH, "cli",
+        "java", "-Xmx512M", "-jar", JAR_PATH, "cli",
         "-s", preset_file,
         "-i", input_filepath,
         "-o", output_filepath
