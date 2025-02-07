@@ -47,3 +47,24 @@ Open a terminal and run:
 git clone https://github.com/jth1011/pokemon-randomizer-webapp.git
 cd pokemon-randomizer-webapp
 ```
+
+## File Structure
+
+PokemonRandApp/
+├── app.py # Flask application entry point
+├── requirements.txt # Python dependencies list
+├── Dockerfile # Docker configuration file
+├── docker-compose.yml # Docker Compose configuration file
+├── .gitignore # Git ignore file (uploads/ and other unnecessary files)
+├── randomizer/ # Contains the randomizer JAR and preset files
+│ ├── PokeRandoZX.jar
+│ └── presets/
+│ ├── FRLG_Standard.rnqs
+│ └── ... (other preset files)
+├── templates/ # HTML templates for the web app
+│ └── index.html
+└── static/ # Static files (CSS, JavaScript, boxart images)
+├── styles.css
+├── script.js
+└── boxart/
+└── (box art images)
