@@ -16,7 +16,8 @@ Welcome to the **Pokémon Randomizer Web App** repository! This web application 
   Choose from multiple randomization presets to modify your ROM.
 
 - **Randomization Process:**  
-  The backend uses a Java JAR (PokeRandoZX.jar) via a subprocess call to randomize your ROM.
+  The backend uses the **Java-based randomization tool** [Universal Pokémon Randomizer ZX](https://github.com/Ajarmar/universal-pokemon-randomizer-zx), originally created by **Ajarmar** and continuously improved and updated by the community. The tool is executed via a **subprocess call** within the backend to apply randomized settings to your ROM.
+
 
 - **Download:**  
   Download the randomized ROM once the process is complete.
@@ -31,19 +32,3 @@ Welcome to the **Pokémon Randomizer Web App** repository! This web application 
 > The distribution or use of copyrighted ROMs is illegal.
 
 ---
-
-## Installation
-
-### Prerequisites
-
-- [Docker](https://docs.docker.com/get-docker/) or [Dockge](https://dockge.com/)
-- [Git](https://git-scm.com/)
-
-### Clone the Repository
-
-Open a terminal and run:
-
-```bash
-git clone https://github.com/jth1011/pokemon-randomizer-webapp.git
-cd pokemon-randomizer-webapp
-```
