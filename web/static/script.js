@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   let storedFilename = null;
+  resetForm();
+  document.getElementById("romfile").value = "";
 
   function resetForm() {
     document.getElementById("error-message").classList.add("hidden");
